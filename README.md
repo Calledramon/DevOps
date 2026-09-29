@@ -11,3 +11,6 @@
 9. ❌ Closed issue #4 in [Calledramon/DevOps](https://github.com/Calledramon/DevOps/issues/4)
 10. 🔄 Reopened issue #4 in [Calledramon/DevOps](https://github.com/Calledramon/DevOps/issues/4)
 <!--END_SECTION:activity-->
+### About Me
+Hi, I'm Ramon! 👋
+I am currently learning about DevOps at NTUST.
