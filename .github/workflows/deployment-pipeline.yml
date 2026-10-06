@@ -54,7 +54,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
           TAG: ${{ vars.BUILD_TAG }}
           NOTE: ${{ vars.RELEASE_NOTE }}
-        run: gh release create "$TAG" build.zip --notes "$NOTE"
+        run: gh release create "$TAG" build.zip --notes "$NOTE" --target main
 
   # 3. Deploy to Staging
   deploy-staging:
@@ -75,7 +75,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
           TAG: ${{ vars.BUILD_TAG }}
           NOTE: ${{ vars.RELEASE_NOTE }}
-        run: gh release create "$TAG" build.zip --notes "$NOTE"
+        run: gh release create "$TAG" build.zip --notes "$NOTE" --target main
 
   # 4. Deploy to Production (Requires Manual Approval)
   deploy-production:
@@ -96,4 +96,4 @@ jobs:
           GH_REPO: ${{ github.repository }}
           TAG: ${{ vars.BUILD_TAG }}
           NOTE: ${{ vars.RELEASE_NOTE }}
-        run: gh release create "$TAG" build.zip --notes "$NOTE"
+        run: gh release create "$TAG" build.zip --notes "$NOTE" --target main
