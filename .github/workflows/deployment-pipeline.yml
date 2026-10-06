@@ -1,94 +1,79 @@
-name: CI/CD Deployment Pipeline
+name: Build and Release
 
 on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
-
+  workflow_dispatch: # Allows manual triggering
+    inputs:
+      tag:
+        description: 'Tag name'     
+        required: true
+      note:
+        description: 'Release note'
+        
 jobs:
-  # 1. Build Job
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
+      - uses: actions/checkout@v4
+      - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Install dependencies and Build
+      - name: Build
         run: |
-          npm install
+          npm i -g @vercel/ncc
+          npm i @actions/github
           npm run build
-          zip -r build.zip .
+      - name: Commit
+        run: |
+          git config --global user.name 'raymundlin'
+          git config --global user.email '142639231+raymundlin@users.noreply.github.com'
+          git commit -am "dist build"
+          git push
 
-      - name: Upload Build Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifact
-          path: build.zip
-
-  # 2. Deploy to Dev
-  deploy-dev:
+  test:
+    runs-on: ubuntu-latest
     needs: build
-    runs-on: ubuntu-latest
-    environment: dev
-    permissions:
-      contents: write
+    defaults:
+      run:
+        shell: bash
     steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifact
-
-      - name: Release Dev Build
+      - uses: actions/checkout@v4
+      - name: Test index.js
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_REPO: ${{ github.repository }}
-          TAG: ${{ vars.BUILD_TAG }}
-          NOTE: ${{ vars.RELEASE_NOTE }}
-        run: gh release create "$TAG" build.zip --notes "$NOTE"
+          INPUT_GITHUB_USERNAME: "raymundlin"
+          INPUT_GITHUB_TOKEN: ${{ secrets.ACTIONSECRET2024 }}
+          INPUT_TARGET_REPOS: '[raymundlin/activity-log]'
+          INPUT_OUTPUT_STYLE: MARKDOWN
+          INPUT_IGNORE_EVENTS: '[]'
+          INPUT_README_PATH: README.md
+          INPUT_COMMIT_MESSAGE: Update README.md
+          INPUT_EVENT_LIMIT: '100'
+        run: node ./dist/index.js
 
-  # 3. Deploy to Staging
-  deploy-staging:
-    needs: deploy-dev
+  release:
     runs-on: ubuntu-latest
-    environment: staging
-    permissions:
-      contents: write
+    needs: test
     steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifact
-
-      - name: Release Staging Build
+      - uses: actions/checkout@v4
+      - name: Pull latest
+        run: |
+          git config --global user.name 'raymundlin'
+          git config --global user.email '142639231+raymundlin@users.noreply.github.com'
+          git pull
+      - name: Tag it
+        run: |
+          git tag -a ${{ inputs.tag }} -m "${{ inputs.note }}" master
+          git push --tags
+      - name: Release
+        uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_REPO: ${{ github.repository }}
-          TAG: ${{ vars.BUILD_TAG }}
-          NOTE: ${{ vars.RELEASE_NOTE }}
-        run: gh release create "$TAG" build.zip --notes "$NOTE"
-
-  # 4. Deploy to Production (Requires Manual Approval)
-  deploy-production:
-    needs: deploy-staging
-    runs-on: ubuntu-latest
-    environment: production
-    permissions:
-      contents: write
-    steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v4
+          GITHUB_TOKEN: ${{ secrets.github_token }}
         with:
-          name: build-artifact
-
-      - name: Release Production Build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_REPO: ${{ github.repository }}
-          TAG: ${{ vars.BUILD_TAG }}
-          NOTE: ${{ vars.RELEASE_NOTE }}
-        run: gh release create "$TAG" build.zip --notes "$NOTE"
+          tag_name: ${{ inputs.tag }}
+          release_name: Release ${{ inputs.tag }}
+          body: ${{ inputs.note }}
+          draft: false
+          prerelease: false
