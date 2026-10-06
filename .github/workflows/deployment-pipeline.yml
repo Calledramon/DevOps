@@ -60,6 +60,7 @@ jobs:
           TAG: ${{ vars.BUILD_TAG }}
           NOTE: ${{ vars.RELEASE_NOTE }}
         run: |
+          TAG=$(echo "$TAG" | xargs)
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git tag "$TAG"
@@ -91,6 +92,7 @@ jobs:
           TAG: ${{ vars.BUILD_TAG }}
           NOTE: ${{ vars.RELEASE_NOTE }}
         run: |
+          TAG=$(echo "$TAG" | xargs)
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git tag "$TAG"
@@ -122,6 +124,7 @@ jobs:
           TAG: ${{ vars.BUILD_TAG }}
           NOTE: ${{ vars.RELEASE_NOTE }}
         run: |
+          TAG=$(echo "$TAG" | xargs)
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git tag "$TAG"
