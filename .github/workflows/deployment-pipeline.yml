@@ -58,7 +58,7 @@ jobs:
 
   # 3. Deploy to Staging
   deploy-staging:
-    needs: deploy-dev
+    needs: build
     runs-on: ubuntu-latest
     environment: staging
     permissions:
