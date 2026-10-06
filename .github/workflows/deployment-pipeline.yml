@@ -43,6 +43,11 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
@@ -54,7 +59,12 @@ jobs:
           GH_REPO: ${{ github.repository }}
           TAG: ${{ vars.BUILD_TAG }}
           NOTE: ${{ vars.RELEASE_NOTE }}
-        run: gh release create "$TAG" build.zip --notes "$NOTE" --target main
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag "$TAG"
+          git push origin "$TAG"
+          gh release create "$TAG" build.zip --notes "$NOTE"
 
   # 3. Deploy to Staging
   deploy-staging:
@@ -64,6 +74,11 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
@@ -75,7 +90,12 @@ jobs:
           GH_REPO: ${{ github.repository }}
           TAG: ${{ vars.BUILD_TAG }}
           NOTE: ${{ vars.RELEASE_NOTE }}
-        run: gh release create "$TAG" build.zip --notes "$NOTE" --target main
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag "$TAG"
+          git push origin "$TAG"
+          gh release create "$TAG" build.zip --notes "$NOTE"
 
   # 4. Deploy to Production (Requires Manual Approval)
   deploy-production:
@@ -85,6 +105,11 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
@@ -96,4 +121,9 @@ jobs:
           GH_REPO: ${{ github.repository }}
           TAG: ${{ vars.BUILD_TAG }}
           NOTE: ${{ vars.RELEASE_NOTE }}
-        run: gh release create "$TAG" build.zip --notes "$NOTE" --target main
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag "$TAG"
+          git push origin "$TAG"
+          gh release create "$TAG" build.zip --notes "$NOTE"
