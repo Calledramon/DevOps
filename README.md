@@ -38,16 +38,16 @@ A GitHub Action that automatically updates your README file with the latest acti
 ## ✍️ Example
 
 <!--START_SECTION:activity-->
-1. ✨ Created a new branch codex/balance-case-study-outlines in [TheDanniCraft/Portfolio](https://github.com/TheDanniCraft/Portfolio/tree/codex/balance-case-study-outlines) on Oct 4, 2026
-2. 🚀 Committed to master in [TheDanniCraft/Portfolio](https://github.com/TheDanniCraft/Portfolio/commit/57cbf43de3006a61537c8f5473205cda4bbf9da2) on Oct 4, 2026
-3. 🚀 Committed to improvements in [TheDanniCraft/Portfolio](https://github.com/TheDanniCraft/Portfolio/commit/bed8814bb23a3f8ef8d0c6322d92172aafc330ed) on Oct 5, 2026
-4. ✨ Created a new branch fix/community-avatar-rings in [TheDanniCraft/clipify](https://github.com/TheDanniCraft/clipify/tree/fix/community-avatar-rings) on Oct 4, 2026
-5. 🚀 Committed to codex/auth-dialog-spacing in [TheDanniCraft/clipify](https://github.com/TheDanniCraft/clipify/commit/000e55fa97eabfa4ffc9581b102a87b45b807069) on Oct 3, 2026
-6. 🚀 Committed to master in [TheDanniCraft/Portfolio](https://github.com/TheDanniCraft/Portfolio/commit/9d1777e7a55397d810f0818ff27b4589b46dbd2f) on Oct 5, 2026
-7. 🔀 Merged PR #203 in [TheDanniCraft/Portfolio](https://github.com/TheDanniCraft/Portfolio/pull/203) on Oct 5, 2026
-8. 🚀 Committed to improvements in [TheDanniCraft/Portfolio](https://github.com/TheDanniCraft/Portfolio/commit/0ac7ccfc50f389ce0b2d455fda5e736c290ba410) on Oct 5, 2026
-9. 🚀 Committed to improvements in [TheDanniCraft/Portfolio](https://github.com/TheDanniCraft/Portfolio/commit/aa17b15c00fe953ddc5979e9c64395b517a762ac) on Oct 5, 2026
-10. 🚀 Committed to fix/community-avatar-rings in [TheDanniCraft/clipify](https://github.com/TheDanniCraft/clipify/commit/2ed013c9c75bd85d6821aee9c34d78ee4f9a0270) on Oct 4, 2026
+1. 📝 Committed to main in [Calledramon/DevOps](https://github.com/Calledramon/DevOps/commit/add742c2592c714b7de9e1529df1ae4698dfd38a)
+2. 📝 Committed to main in [Calledramon/DevOps](https://github.com/Calledramon/DevOps/commit/f716d10844e4bf8f908dca23bdd014df6e38f74d)
+3. 📝 Committed to main in [Calledramon/DevOps](https://github.com/Calledramon/DevOps/commit/1db9b4f7a3f852373562c59ec13b642e265cccb8)
+4. 📝 Committed to main in [Calledramon/DevOps](https://github.com/Calledramon/DevOps/commit/58e2351634f4317ecfdcd0ec7878ef70ac37bf0f)
+5. 🔀 Merged PR #10 in [Calledramon/DevOps](https://github.com/Calledramon/DevOps/pull/10)
+6. ❌ Closed issue #9 in [Calledramon/DevOps](https://github.com/Calledramon/DevOps/issues/9)
+7. 📝 Committed to main in [Calledramon/DevOps](https://github.com/Calledramon/DevOps/commit/27d7236ecbf1795f9e783b3ce8409292a2470498)
+8. 📥 Opened PR #10 in [Calledramon/DevOps](https://github.com/Calledramon/DevOps/pull/10)
+9. 🆕 Opened issue #9 in [Calledramon/DevOps](https://github.com/Calledramon/DevOps/issues/9)
+10. 🎉 Created a new branch issue-1-activity-workflow in [Calledramon/DevOps](https://github.com/Calledramon/DevOps/tree/issue-1-activity-workflow)
 <!--END_SECTION:activity-->
 
 ## 📖Usage
