@@ -60,7 +60,7 @@ jobs:
           TAG: ${{ vars.BUILD_TAG }}
           NOTE: ${{ vars.RELEASE_NOTE }}
         run: |
-          TAG=$(echo "$TAG" | xargs)
+          TAG=$(echo "$TAG" | xargs | sed 's/[^a-zA-Z0-9._-]//g')
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git tag "$TAG"
@@ -92,7 +92,7 @@ jobs:
           TAG: ${{ vars.BUILD_TAG }}
           NOTE: ${{ vars.RELEASE_NOTE }}
         run: |
-          TAG=$(echo "$TAG" | xargs)
+          TAG=$(echo "$TAG" | xargs | sed 's/[^a-zA-Z0-9._-]//g')
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git tag "$TAG"
@@ -124,7 +124,7 @@ jobs:
           TAG: ${{ vars.BUILD_TAG }}
           NOTE: ${{ vars.RELEASE_NOTE }}
         run: |
-          TAG=$(echo "$TAG" | xargs)
+          TAG=$(echo "$TAG" | xargs | sed 's/[^a-zA-Z0-9._-]//g')
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git tag "$TAG"
