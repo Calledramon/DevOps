@@ -1,0 +1,101 @@
+name: Build-Test-Release
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore: [ 'README.md' ]   # README updates from the activity workflow should not trigger a release
+  workflow_dispatch:
+    inputs:
+      test_env:
+        description: 'Test environment'
+        type: choice
+        options: [ staging, prod ]
+        default: staging
+
+env:
+  TEST_ENV: ${{ inputs.test_env || 'staging' }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: Install & Build
+        run: |
+          npm install
+          npx ncc build src/index.js --license licenses.txt
+      - uses: actions/upload-artifact@v4
+        with: { name: build-artifact, path: dist/ }
+
+  test-unit:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm install
+      - name: Run unit tests
+        run: npm run test:unit
+
+  test-integration:
+    needs: test-unit
+    runs-on: ubuntu-latest
+    env:
+      INPUT_GITHUB_USERNAME: ${{ github.repository_owner }}
+      INPUT_GITHUB_TOKEN: ${{ secrets.ACTIONSECRET2026 }}
+      INPUT_TARGET_REPOS: '[${{ github.repository }}]'
+      INPUT_OUTPUT_STYLE: MARKDOWN
+      INPUT_IGNORE_EVENTS: '[]'
+      INPUT_README_PATH: README.md
+      INPUT_DRY_RUN: 'true'            # call the real GitHub API, but commit nothing
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - uses: actions/download-artifact@v4
+        with: { name: build-artifact, path: dist/ }
+      - name: Run integration tests
+        run: npm run test:integration
+
+  deploy-staging:
+    needs: test-integration
+    runs-on: ubuntu-latest
+    environment: staging
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with: { name: build-artifact, path: dist/ }
+      - name: Release to staging
+        run: |
+          gh release create "staging-$(date +%s)" dist/* \
+            --target "${{ github.sha }}" \
+            --title "Staging $(date +'%Y-%m-%d %H:%M')" \
+            --notes "Deployed to ${{ vars.DEPLOY_TARGET }} after unit + integration tests passed (TEST_ENV=${{ env.TEST_ENV }})." \
+            --prerelease
+
+  deploy-production:
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+    environment: production        # required reviewer -> manual approval
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with: { name: build-artifact, path: dist/ }
+      - name: Release to production
+        run: |
+          gh release create "prod-$(date +%s)" dist/* \
+            --target "${{ github.sha }}" \
+            --title "Production $(date +'%Y-%m-%d %H:%M')" \
+            --notes "Deployed to ${{ vars.DEPLOY_TARGET }} after staging and manual approval." \
+            --latest
