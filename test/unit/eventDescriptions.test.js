@@ -48,7 +48,7 @@ test('IssuesEvent.opened contains the issue number', () => {
   const text = eventDescriptions.IssuesEvent.opened({
     repo, isPrivate: false, payload: { issue: { number: 42 } },
   });
-  assert.match(text, /#98/);
+  assert.match(text, /#42/);
 });
 
 test('PullRequestEvent.merged contains the PR number', () => {
