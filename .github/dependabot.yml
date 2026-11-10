@@ -1,0 +1,13 @@
+version: 2
+updates:
+  # JavaScript dependencies (package.json + bun.lock)
+  - package-ecosystem: "bun"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  # keeps the actions used in the workflows up to date
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
