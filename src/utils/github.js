@@ -92,7 +92,7 @@ async function fetchAllStarredRepos() {
             starredRepos = starredRepos.concat(pageStarredRepos);
             page++;
         } catch (error) {
-            throw new Error(`Error fetching starred repositories: ${error.message}`);
+            throw new Error(`Error fetching starred repositories: ${error.message}`, { cause: error });
         }
     }
 
@@ -192,7 +192,7 @@ async function fetchEvents(page) {
 
         return events;
     } catch (error) {
-        throw new Error(`Error fetching events: ${error.message}`);
+        throw new Error(`Error fetching events: ${error.message}`, { cause: error });
     }
 }
 

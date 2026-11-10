@@ -138,6 +138,10 @@ function processEventEmojiMap(value) {
         }
 
         Object.keys(userMap).forEach(event => {
+                        // Security: never let user-supplied keys reach Object.prototype
+            if (['__proto__', 'constructor', 'prototype'].includes(event)) {
+                return;
+            }
             let userValue = userMap[event];
             // If the value is a string, attempt to parse it as YAML to handle nested objects
             if (typeof userValue === 'string') {
