@@ -21,7 +21,7 @@
 		"@commitlint/cli": "^21.2.3",
 		"@eslint/js": "^10.0.1",
 		"@vercel/ncc": "^0.44.1",
-		"eslint": "^10.14.0",
+		"eslint": "^10.15.0",
 		"eslint-plugin-security": "^4.2.1",
 		"globals": "^17.14.0"
 	}
